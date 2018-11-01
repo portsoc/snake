@@ -29,8 +29,8 @@ addRandomFood();
 function addRandomFood() {
     let x=0, y=0, searching=true, cell;
     while (searching) {
-        x = Math.round(Math.random()*25);
-        y = Math.round(Math.random()*25);
+        x = Math.round(Math.random()*1000) % size;
+        y = Math.round(Math.random()*1000) % size;
         cell = document.querySelector(`#x${x}y${y}`);
         searching = cell.classList.contains("snake"); 
     }
