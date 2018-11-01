@@ -109,14 +109,28 @@
   }
 
   function placePellet() {
-    let rx,ry;
+    let countOfEmpties = 0;
+    for (let x=0; x<numcells; x++) {
+      for (let y=0; y<numcells; y++) {
+        if (!gameworld[x][y]) countOfEmpties++;
+      }
+    }
 
-    do {
-      rx = Math.floor(Math.random() * numcells);
-      ry = Math.floor(Math.random() * numcells);
-    } while (gameworld[rx][ry]);
+    if (countOfEmpties === 0) return; // no place for a pellet
 
-    gameworld[rx][ry] = PELLET;
+    const newPellet = Math.floor(Math.random()*countOfEmpties);
+    countOfEmpties = 0;
+    for (let x=0; x<numcells; x++) {
+      for (let y=0; y<numcells; y++) {
+        if (!gameworld[x][y]) {
+          if (countOfEmpties === newPellet) {
+            gameworld[x][y] = PELLET;
+            return;
+          }
+          countOfEmpties++;
+        }
+      }
+    }
   }
 
   const c = window.canvas1.getContext('2d');
