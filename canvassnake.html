@@ -1,12 +1,7 @@
 <!doctype html>
 <title>Canvas</title>
-<style>
-  canvas {
-    border:1px dashed green;
-  }
-</style>
 
-<canvas id=canvas1 width=700 height=600></canvas>
+<canvas id=canvas1 width=900 height=600></canvas>
 <p>Score: <span id=score></span>. High Score: <span id=hscore></span></p>
 
 <script>
@@ -15,7 +10,23 @@
 
   const gameworld = [];
   window.g = gameworld;
-  const numcells = 25;
+
+
+  const c = window.canvas1.getContext('2d');
+  const w = window.canvas1.width;
+  const h = window.canvas1.height;
+
+  /*const gw = w / numcells;
+  const gh = h / numcells; */
+
+  const cell = Math.min(w,h) / 25;
+
+
+
+  const numcells = {
+    x: Math.floor(w/cell),
+    y: Math.floor(h/cell)
+  };
 
   //const EMPTY = Symbol('empty');
   const WALL = 'wall';
@@ -81,7 +92,7 @@
   function worldsetup(startDead) {
     if (!startDead) audio.play();
 
-    for (let i = 0; i < numcells; i++) {
+    for (let i = 0; i < numcells.x; i++) {
       gameworld[i] = [];
     }
 
@@ -93,15 +104,18 @@
     snakeDelay = 200;
 
     // add walls
-    for (let i=0; i<numcells; i++) {
-      if (Math.abs(i-numcells/2) < numcells/6) continue; // holes in the middle of the walls
-      gameworld[i][0] = WALL;
-      gameworld[i][numcells-1] = WALL;
-      gameworld[0][i] = WALL;
-      gameworld[numcells-1][i] = WALL;
+    for (let x=0; x<numcells.x; x++) {
+      if (Math.abs(x-numcells.x/2) < numcells.x/6) continue; // holes in the middle of the walls
+      gameworld[x][0] = WALL;
+      gameworld[x][numcells.y-1] = WALL;
+    }
+    for (let y=0; y<numcells.y; y++) {
+      if (Math.abs(y-numcells.y/2) < numcells.y/6) continue; // holes in the middle of the walls
+      gameworld[0][y] = WALL;
+      gameworld[numcells.x-1][y] = WALL;
     }
 
-    const mid = Math.round(numcells/2);
+    const mid = Math.round(numcells.y/2);
     snake.length = 0;
     snake.push(
       { x: 3, y: mid },
@@ -122,8 +136,8 @@
 
   function placePellet() {
     let countOfEmpties = 0;
-    for (let x=0; x<numcells; x++) {
-      for (let y=0; y<numcells; y++) {
+    for (let x=0; x<numcells.x; x++) {
+      for (let y=0; y<numcells.y; y++) {
         if (!gameworld[x][y]) countOfEmpties++;
       }
     }
@@ -132,8 +146,8 @@
 
     const newPellet = Math.floor(Math.random()*countOfEmpties);
     countOfEmpties = 0;
-    for (let x=0; x<numcells; x++) {
-      for (let y=0; y<numcells; y++) {
+    for (let x=0; x<numcells.x; x++) {
+      for (let y=0; y<numcells.y; y++) {
         if (!gameworld[x][y]) {
           if (countOfEmpties === newPellet) {
             gameworld[x][y] = PELLET;
@@ -145,13 +159,6 @@
     }
   }
 
-  const c = window.canvas1.getContext('2d');
-  const w = window.canvas1.width;
-  const h = window.canvas1.height;
-
-  const gw = w / numcells;
-  const gh = h / numcells;
-
   function line(x1,y1,x2,y2) {
     c.beginPath();
     c.moveTo(x1,y1);
@@ -162,7 +169,7 @@
 
   function square(x,y,color) {
     c.fillStyle = color;
-    c.fillRect(x*gw,y*gh,gw,gh);
+    c.fillRect(x*cell,y*cell,cell,cell);
   }
 
   function getColor(x,y) {
@@ -170,20 +177,20 @@
   }
 
   function grid() {
-    for (let i = 0; i < w; i+=gw) {
-      line(i, 0, i, h);
+    for (let i = 0; i <= w; i+=cell) {
+      line(i, 0, i, h-h%cell);
     }
 
-    for (let i = 0; i < h; i+=gh) {
-      line(0,i,w,i);
+    for (let i = 0; i <= h; i+=cell) {
+      line(0,i,w-w%cell,i);
     }
   }
 
   function repaint() {
     c.clearRect(0,0,w,h);
     grid();
-    for (let x=0; x<numcells; x++) {
-      for (let y=0; y<numcells; y++) {
+    for (let x=0; x<numcells.x; x++) {
+      for (let y=0; y<numcells.y; y++) {
         const color = getColor(x,y);
         if (color) square(x,y,color);
       }
@@ -196,10 +203,10 @@
     const newPos = Object.assign({},snake[0]);
 
     switch(direction) {
-      case 'north': newPos.y = (newPos.y-1 + numcells) % numcells; break;
-      case 'south': newPos.y = (newPos.y+1 + numcells) % numcells; break;
-      case 'east':  newPos.x = (newPos.x+1 + numcells) % numcells; break;
-      case 'west':  newPos.x = (newPos.x-1 + numcells) % numcells; break;
+      case 'north': newPos.y = (newPos.y-1 + numcells.y) % numcells.y; break;
+      case 'south': newPos.y = (newPos.y+1 + numcells.y) % numcells.y; break;
+      case 'east':  newPos.x = (newPos.x+1 + numcells.x) % numcells.x; break;
+      case 'west':  newPos.x = (newPos.x-1 + numcells.x) % numcells.x; break;
     }
 
     //if there is something there that isn't a pellet we have died
