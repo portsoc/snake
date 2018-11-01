@@ -4,6 +4,7 @@ const size=25;
 const pos= {x:12,y:12, xdir:1, ydir:0};
 let lastUpdated=new Date().getMilliseconds();
 let speed = 200;
+let paused=false;
 
 const game = document.createElement("div");
 game.id="game";
@@ -73,6 +74,13 @@ function toggleGrid() {
     game.classList.toggle("gridon")
 }
 
+function togglePause() {
+    paused = !paused;
+    if (!paused) {
+        window.requestAnimationFrame(step);
+    }
+}
+
 function move(cell) {
     cell.x += cell.xdir;
     cell.y += cell.ydir;
@@ -86,7 +94,9 @@ function step(now) {
             move(pos);
             check(pos);
         }
-        window.requestAnimationFrame(step);
+        if (!paused) {
+            window.requestAnimationFrame(step);
+        }
     } catch (e) {
         console.log(e);
         gameover();
@@ -106,6 +116,11 @@ function joystick(e) {
         case "G":
         case "g":
             toggleGrid();
+            break;
+        case "P":
+        case "p":
+        case " ":
+            togglePause();
             break;
         default:
             break;
