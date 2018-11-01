@@ -11,6 +11,9 @@ document.body.appendChild(game);
 
 const active = [];
 
+const futureDirectionChanges = [];
+
+
 for (let y = 0; y<size; y++) {
     for (let x = 0; x<size; x++) {
         let e = document.createElement("div");
@@ -75,6 +78,7 @@ function step(now) {
     try {
         if(now-lastUpdated > speed) {
             lastUpdated = now;
+            changeDirection();
             move(pos);
             check(pos);
         }
@@ -89,23 +93,38 @@ function joystick(e) {
     console.log(e.key);
     switch (e.key) {
         case "ArrowDown":
-            pos.xdir=0;
-            pos.ydir=1;
-            break;
         case "ArrowUp":
-            pos.xdir=0;
-            pos.ydir=-1;
-            break;
         case "ArrowLeft":
-            pos.xdir=-1;
-            pos.ydir=0;
-            break;
         case "ArrowRight":
-            pos.xdir=1;
-            pos.ydir=0;
-            break;    
+            futureDirectionChanges.push(e.key);
+            break;
         default:
             break;
+    }
+}
+
+function changeDirection() {
+    let key
+    if (futureDirectionChanges.length > 0) {
+        const key = futureDirectionChanges.shift();
+        switch (key) {
+            case "ArrowDown":
+                pos.xdir=0;
+                pos.ydir=1;
+                break;
+            case "ArrowUp":
+                pos.xdir=0;
+                pos.ydir=-1;
+                break;
+            case "ArrowLeft":
+                pos.xdir=-1;
+                pos.ydir=0;
+                break;
+            case "ArrowRight":
+                pos.xdir=1;
+                pos.ydir=0;
+                break;
+        }
     }
 }
 
