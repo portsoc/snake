@@ -81,7 +81,9 @@
 
     snakeDelay = 200;
 
+    // add walls
     for (let i=0; i<numcells; i++) {
+      if (Math.abs(i-numcells/2) < numcells/6) continue; // holes in the middle of the walls
       gameworld[i][0] = WALL;
       gameworld[i][numcells-1] = WALL;
       gameworld[0][i] = WALL;
