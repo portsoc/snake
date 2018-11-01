@@ -10,6 +10,7 @@
 
 <script>
   'use strict';
+  const audio = new Audio('http://media.phoneboy.com/misc/nokia-tune.mp3');
 
   const gameworld = [];
   window.g = gameworld;
@@ -38,10 +39,9 @@
   const snake = [];
 
   function init() {
-    worldsetup();
+    worldsetup(true);
     repaint();
     setupListeners();
-    setTimeout(update, snakeDelay);
   }
 
   function setupListeners() {
@@ -70,15 +70,14 @@
     }
   }
 
-  function worldsetup() {
-    const audio = new Audio('http://media.phoneboy.com/misc/nokia-tune.mp3');
-    audio.play();
+  function worldsetup(startDead) {
+    if (!startDead) audio.play();
 
     for (let i = 0; i < numcells; i++) {
       gameworld[i] = [];
     }
 
-    dead = false;
+    dead = startDead;
 
     snakeDelay = 200;
 
@@ -105,7 +104,7 @@
       gameworld[pos.x][pos.y] = i ? SNAKE : SNAKEHEAD;
     }
 
-    placePellet();
+    if (!startDead) placePellet();
   }
 
   function placePellet() {
@@ -178,6 +177,8 @@
     }
   }
 
+  let nextUpdate = null;
+
   function update() {
     const newPos = Object.assign({},snake[0]);
 
@@ -187,8 +188,6 @@
       case 'east':  newPos.x = (newPos.x+1 + numcells) % numcells; break;
       case 'west':  newPos.x = (newPos.x-1 + numcells) % numcells; break;
     }
-
-    console.log(newPos);
 
     //if there is something there that isn't a pellet we have died
     const whatshere = gameworld[newPos.x][newPos.y];
@@ -208,7 +207,10 @@
     }
 
     repaint();
-    if (!dead) setTimeout(update, snakeDelay);
+    if (!dead) {
+      if (nextUpdate != null) clearTimeout(nextUpdate);
+      nextUpdate = setTimeout(update, snakeDelay);
+    }
   }
 
   function die() {
