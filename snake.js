@@ -69,6 +69,10 @@ function gameover() {
     game.classList.add("gameover"); 
 }
 
+function toggleGrid() {
+    game.classList.toggle("gridon")
+}
+
 function move(cell) {
     cell.x += cell.xdir;
     cell.y += cell.ydir;
@@ -89,6 +93,7 @@ function step(now) {
     }
 }
 
+
 function joystick(e) {
     console.log(e.key);
     switch (e.key) {
@@ -97,6 +102,10 @@ function joystick(e) {
         case "ArrowLeft":
         case "ArrowRight":
             futureDirectionChanges.push(e.key);
+            break;
+        case "G":
+        case "g":
+            toggleGrid();
             break;
         default:
             break;

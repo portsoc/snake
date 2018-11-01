@@ -4,7 +4,12 @@
 }
 
 #game div {
-    border: solid thin black;
+    transition: border 1s ease;
+    border: solid thin transparent;
+}
+
+#game.gridon div {
+    border-color: black;
 }
 
 #game {
