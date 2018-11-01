@@ -1,8 +1,19 @@
 <!doctype html>
 <title>Canvas</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+  }
 
-<canvas id=canvas1 width=900 height=600></canvas>
-<p>Score: <span id=score></span>. High Score: <span id=hscore></span></p>
+  section.score {
+    padding: 2vh;
+    font-size: 5vh;
+  }
+</style>
+
+<canvas id=canvas1 width=100 height=100></canvas>
+<section class=score>Score: <span id=score></span>. High Score: <span id=hscore></span></section>
 
 <script>
   'use strict';
@@ -11,10 +22,13 @@
   const gameworld = [];
   window.g = gameworld;
 
+  const canvas = window.canvas1;
+  canvas.height = window.innerHeight * .85; // save some for the score
+  canvas.width = window.innerWidth;
 
-  const c = window.canvas1.getContext('2d');
-  const w = window.canvas1.width;
-  const h = window.canvas1.height;
+  const c = canvas.getContext('2d');
+  const w = canvas.width;
+  const h = canvas.height;
 
   /*const gw = w / numcells;
   const gh = h / numcells; */
@@ -177,12 +191,12 @@
   }
 
   function grid() {
-    for (let i = 0; i <= w; i+=cell) {
-      line(i, 0, i, h-h%cell);
+    for (let i = 0; i <= numcells.x; i++) {
+      line(i*cell, 0, i*cell, numcells.y*cell);
     }
 
-    for (let i = 0; i <= h; i+=cell) {
-      line(0,i,w-w%cell,i);
+    for (let i = 0; i <= numcells.y; i++) {
+      line(0,i*cell,numcells.x*cell,i*cell);
     }
   }
 
