@@ -57,15 +57,19 @@
     }
     if (e.key == 'ArrowUp' ) {
       direction = 'north';
+      update();
       e.preventDefault();
     } else if (e.key == 'ArrowDown' ) {
       direction = 'south';
+      update();
       e.preventDefault();
     } else if (e.key == 'ArrowLeft' ) {
       direction = 'west';
+      update();
       e.preventDefault();
     } else if (e.key == 'ArrowRight' ) {
       direction = 'east';
+      update();
       e.preventDefault();
     }
   }
