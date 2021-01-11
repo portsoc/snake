@@ -26,6 +26,8 @@ function createGame() {
 }
 
 function move() {
+  if (game.pause) return true; // pretend we moved
+
   // add cell to head
   const oldHead = game.player.body[game.player.body.length - 1];
 
@@ -113,7 +115,14 @@ export function startGame() {
 function step() {
   clearTimeout(currentTimeout);
   const moved = move();
-  if (moved) currentTimeout = setTimeout(step, game.speed);
+  if (moved) currentTimeout = setTimeout(step, game.turbo ? game.speed / 2 : game.speed);
 }
 
+export function pause(value = !game.pause) {
+  game.pause = value;
+}
 
+export function turbo(value = !game.turbo) {
+  game.turbo = value;
+  if (value) step(); // start turbo immediately
+}
