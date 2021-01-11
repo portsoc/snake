@@ -1,4 +1,4 @@
-import { queueDirectionChange, DIRECTIONS } from './game.mjs';
+import { queueDirectionChange, DIRECTIONS, pause, turbo } from './game.mjs';
 
 function keydown(e) {
   switch (e.key) {
@@ -14,9 +14,25 @@ function keydown(e) {
     case "ArrowRight":
       queueDirectionChange(DIRECTIONS.r);
       break;
+    case "p":
+    case "P":
+      pause();
+      break;
+    case "Shift":
+      turbo(true);
+      break;
+  }
+}
+
+function keyup(e) {
+  switch (e.key) {
+    case "Shift":
+      turbo(false);
+      break;
   }
 }
 
 export function initKeys() {
   document.addEventListener("keydown", keydown);
+  document.addEventListener("keyup", keyup);
 }
