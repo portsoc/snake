@@ -48,3 +48,7 @@ function coordsToChild({x, y}) {
   if (!gameEl.children[pos]) { console.log({x,y,pos}); debugger; }
   return gameEl.children[pos];
 }
+
+export function viewGrid(value = !gameEl?.classList.contains('gridon')) {
+   gameEl?.classList.toggle('gridon', value);
+}

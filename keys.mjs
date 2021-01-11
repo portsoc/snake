@@ -1,4 +1,5 @@
 import { queueDirectionChange, DIRECTIONS, pause, turbo } from './game.mjs';
+import { viewGrid } from './view.mjs';
 
 function keydown(e) {
   switch (e.key) {
@@ -20,6 +21,10 @@ function keydown(e) {
       break;
     case "Shift":
       turbo(true);
+      break;
+    case "g":
+    case "G":
+      viewGrid();
       break;
   }
 }
