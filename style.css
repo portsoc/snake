@@ -16,8 +16,12 @@
   display: grid;
   grid-template-columns: repeat(25, 1fr);
   grid-template-rows: repeat(25, 1fr);
-  width: 100vmin;
-  height: 100vmin;
+  width: 90vmin;
+  height: 90vmin;
+  position: absolute;
+  top: 5vmin;
+  left: 5vmin;
+  border: solid thin black;
 }
 
 .snake {
