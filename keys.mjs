@@ -1,38 +1,42 @@
-import { queueDirectionChange, DIRECTIONS, pause, turbo } from './game.mjs';
-import { viewGrid } from './view.mjs';
+import * as game from './game.mjs';
+import * as view from './view.mjs';
 
 function keydown(e) {
   switch (e.key) {
     case "ArrowDown":
-      queueDirectionChange(DIRECTIONS.d);
+      game.queueDirectionChange(game.DIRECTIONS.d);
       break;
     case "ArrowUp":
-      queueDirectionChange(DIRECTIONS.u);
+      game.queueDirectionChange(game.DIRECTIONS.u);
       break;
     case "ArrowLeft":
-      queueDirectionChange(DIRECTIONS.l);
+      game.queueDirectionChange(game.DIRECTIONS.l);
       break;
     case "ArrowRight":
-      queueDirectionChange(DIRECTIONS.r);
+      game.queueDirectionChange(game.DIRECTIONS.r);
       break;
     case "p":
     case "P":
-      pause();
+      game.pause();
       break;
     case "Shift":
-      turbo(true);
+      game.turbo(true);
       break;
     case "g":
     case "G":
-      viewGrid();
+      view.viewGrid();
       break;
+    case " ":
+    case "r":
+    case "R":
+      if (!game.game.player.alive) game.startGame();
   }
 }
 
 function keyup(e) {
   switch (e.key) {
     case "Shift":
-      turbo(false);
+      game.turbo(false);
       break;
   }
 }
