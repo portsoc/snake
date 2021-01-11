@@ -1,14 +1,14 @@
-const size = 25;
+export const size = 25;
 const initialSize = 10;
 
-const DIRECTIONS = {
+export const DIRECTIONS = {
   u: { x: 0, y: -1 },
   d: { x: 0, y: 1 },
   l: { x: -1, y: 0 },
   r: { x: 1, y: 0 },
 };
 
-let game;
+export let game;
 
 function createGame() {
   const body = makeBody();
@@ -35,8 +35,8 @@ function move() {
   }
 
   const newHead = {
-    x: oldHead + game.player.direction.x,
-    y: oldHead + game.player.direction.y,
+    x: oldHead.x + game.player.direction.x,
+    y: oldHead.y + game.player.direction.y,
   }
 
   if (isColliding(newHead, game.player.body)) {
@@ -63,8 +63,8 @@ function isColliding(newHead, body) {
     newHead.y >= size;
 }
 
-function queueDirectionChange(direction) {
-  if (!Object.values(DIRECTIONS).inclues(direction)) {
+export function queueDirectionChange(direction) {
+  if (!Object.values(DIRECTIONS).includes(direction)) {
     throw new TypeError('unsupported direction, must be a value from DIRECTIONS');
   }
   game.player.moves.push(direction);
@@ -78,6 +78,7 @@ function makeBody() {
         y: size-1,
     })
   }
+  return retval;
 }
 
 function randomCoords() {
@@ -104,19 +105,15 @@ function bodyContainsCoordinates(body, coords) {
 
 let currentTimeout;
 
-function startGame() {
+export function startGame() {
   game = createGame();
-  if (currentTimeout) clearTimeout(currentTimeout);
-  setTimeout(step, game.speed);
+  step();
 }
 
 function step() {
+  clearTimeout(currentTimeout);
   const moved = move();
-  if (moved) setTimeout(step, game.speed);
+  if (moved) currentTimeout = setTimeout(step, game.speed);
 }
 
-export const DIRECTIONS;
-export const game;
-export function queueDirectionChange(direction);
-export function startGame();
 

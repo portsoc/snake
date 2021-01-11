@@ -1,7 +1,7 @@
 import { queueDirectionChange, DIRECTIONS } from './game.mjs';
 
-export function keydown(key) {
-  switch (key) {
+function keydown(e) {
+  switch (e.key) {
     case "ArrowDown":
       queueDirectionChange(DIRECTIONS.d);
       break;
@@ -17,14 +17,6 @@ export function keydown(key) {
   }
 }
 
-export function init() {
-  document.addEventListener("keydown", keydown);
-}
-
-export function init() {
-  document.addEventListener("keydown", keydown);
-}
-
-export function init() {
+export function initKeys() {
   document.addEventListener("keydown", keydown);
 }
