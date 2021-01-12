@@ -33,6 +33,7 @@ function initializeGameEl() {
   if (!gameEl) {
     gameEl = document.createElement('div');
     gameEl.id = 'game';
+    gameEl.classList.add('game');
     gameEl.classList.add('gridon');
 
     for (let i = 0; i < size*size; i += 1) {

@@ -3,6 +3,18 @@
   padding: 0;
 }
 
+body {
+  display: flex;
+  place-content: center;
+  min-height: 100vh;
+}
+
+.game {
+  width: 50vmin;
+  height: 50vmin;
+  border: solid thin black;
+}
+
 #game div {
   transition: border 1s ease;
   border: solid thin transparent;
@@ -16,12 +28,6 @@
   display: grid;
   grid-template-columns: repeat(25, 1fr);
   grid-template-rows: repeat(25, 1fr);
-  width: 90vmin;
-  height: 90vmin;
-  position: absolute;
-  top: 5vmin;
-  left: 5vmin;
-  border: solid thin black;
 }
 
 .snake {
