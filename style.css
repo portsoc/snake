@@ -1,3 +1,23 @@
+:root {
+  --bg: white;
+  --snake: green;
+  --food: purple;
+  --gameover: #F00;
+  --border: black;
+  --grid: #CCC;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: black;
+    --snake: limegreen;
+    --food: #660066;
+    --gameover: #D00;
+    --border: white;
+    --grid: #222;
+  }
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -7,12 +27,13 @@ body {
   display: flex;
   place-content: center;
   min-height: 100vh;
+  background: var(--bg);
 }
 
 .game {
   width: 50vmin;
   height: 50vmin;
-  border: solid thin black;
+  border: solid thin var(--border);
 }
 
 #game div {
@@ -21,7 +42,7 @@ body {
 }
 
 #game.gridon div {
-  border-color: black;
+  border-color: var(--grid);
 }
 
 #game {
@@ -31,13 +52,13 @@ body {
 }
 
 .snake {
-  background: green;
+  background: var(--snake);
 }
 
 .gameover .snake {
-  background: red;
+  background: var(--gameover);
 }
 
 .food {
-  background: purple;
+  background: var(--food);
 }
