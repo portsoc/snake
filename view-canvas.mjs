@@ -5,19 +5,31 @@ let xyMax;
 let gameEl;
 let gridOn = true;
 let c;
+const colors = {};
 
 export function startView() {
   xyMax = UNIT * size;
 
   gameEl = document.createElement('canvas');
+  c = gameEl.getContext('2d');
+
   gameEl.width = size * UNIT;
   gameEl.height = size * UNIT;
   gameEl.id = 'canvasGame';
   gameEl.classList.add('game');
   document.body.append(gameEl);
 
-  c = gameEl.getContext('2d');
+  prepColorReference();
   view();
+}
+
+function cssVarToProperty(name, obj) {
+  obj[name] = getComputedStyle(document.documentElement).getPropertyValue("--"+name);
+}
+
+function prepColorReference() {
+  const props = ['bg', 'snake', 'food', 'gameover', 'border', 'grid'];
+  props.forEach( prop => cssVarToProperty(prop, colors) );
 }
 
 function line(x1,y1,x2,y2, col = 'grey') {
@@ -36,12 +48,12 @@ function drawGrid() {
 }
 
 function drawFood() {
-  c.fillStyle = 'purple';
+  c.fillStyle = colors.food;
   c.fillRect(game.food.x*UNIT,game.food.y*UNIT,UNIT,UNIT);
 }
 
 function drawSnake() {
-  c.fillStyle = game.player.alive ? 'green' : 'red';
+  c.fillStyle = game.player.alive ? colors.snake : colors.gameover;
   for (const coords of game.player.body) {
     c.fillRect(coords.x*UNIT,coords.y*UNIT,UNIT,UNIT);
   }
