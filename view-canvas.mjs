@@ -28,11 +28,6 @@ function line(x1,y1,x2,y2, col = 'grey') {
   c.stroke();
 }
 
-function square(x,y,color) {
-  c.fillStyle = color;
-  c.fillRect(x*cell,y*cell,cell,cell);
-}
-
 function drawGrid() {
   for (let x=0; x<size; x++) {
     line(0, x*UNIT, xyMax, x*UNIT);
