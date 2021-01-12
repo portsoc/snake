@@ -1,5 +1,5 @@
 import * as game from './game.mjs';
-import * as view from './view.mjs';
+import * as view from './view-dom.mjs';
 
 function keydown(e) {
   switch (e.key) {
