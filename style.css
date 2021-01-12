@@ -24,15 +24,15 @@
 }
 
 body {
-  display: flex;
+  display: grid;
   place-content: center;
   min-height: 100vh;
   background: var(--bg);
 }
 
 .game {
-  width: 50vmin;
-  height: 50vmin;
+  width: 90vmin;
+  height: 90vmin;
   border: solid thin var(--border);
 }
 
