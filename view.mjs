@@ -45,7 +45,6 @@ function initializeGameEl() {
 
 function coordsToChild({x, y}) {
   const pos = x + y*size;
-  if (!gameEl.children[pos]) { console.log({x,y,pos}); debugger; }
   return gameEl.children[pos];
 }
 
