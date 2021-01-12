@@ -35,8 +35,8 @@ function prepColorReference() {
 function line(x1,y1,x2,y2, col = 'grey') {
   c.beginPath();
   c.strokeStyle=col;
-  c.moveTo(x1,y1);
-  c.lineTo(x2,y2);
+  c.moveTo(x1-0.5,y1-0.5);
+  c.lineTo(x2-0.5,y2-0.5);
   c.stroke();
 }
 
@@ -60,12 +60,6 @@ function drawSnake() {
 }
 
 function view() {
-  if (!game.player.alive) {
-    gameEl.classList.add('gameover');
-  } else {
-    gameEl.classList.remove('gameover');
-  }
-
   c.clearRect(0,0,xyMax,xyMax);
   drawSnake();
   drawFood();
@@ -74,11 +68,6 @@ function view() {
   }
 
   requestAnimationFrame(view);
-}
-
-function coordsToChild({x, y}) {
-  const pos = x + y*size;
-  return gameEl.children[pos];
 }
 
 export function viewGrid(value = !gridOn) {
